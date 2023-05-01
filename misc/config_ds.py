@@ -135,6 +135,9 @@ _C.DS.LAT_BEFORE = []
 _C.DS.LAT_AFTER = []
 _C.DS.LAT_COST_WEIGHT = 1e-4
 
+_C.DS.CHL_WISE = True
+_C.DS.PIXEL_WISE = False
+
 # # Swin Transformer parameters
 # _C.MODEL.SWIN = CN()
 # _C.MODEL.SWIN.PATCH_SIZE = 4

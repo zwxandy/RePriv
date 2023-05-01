@@ -102,7 +102,7 @@ def parse_option():
     parser.add_argument("--machine-rank", default=0, type=int, help="machine rank, distributed setting")
     parser.add_argument("--num-machines", default=1, type=int, help="number of nodes, distributed setting")
     parser.add_argument("--workflow-run-id", default="", type=str, help="fblearner job id")
-    parser.add_argument("--dist-url", default="tcp://127.0.0.1:10003", type=str, help="init method, distributed setting")
+    parser.add_argument("--dist-url", default="tcp://127.0.0.1:10002", type=str, help="init method, distributed setting")
 
     parser.add_argument('--distill', action='store_true', help='If use distillation in ViT training')
 
@@ -154,7 +154,7 @@ def _setup_worker_env(gpu, ngpus_per_node, config, dp=False):
     config.freeze()
 
     # Setup logging format.
-    logging.setup_logging(os.path.join(config.OUTPUT, "stdout.log"), "a")
+    logging.setup_logging(os.path.join(config.OUTPUT, "stdout1.log"), "a")
 
     # backup the config
     if dist.get_rank() == 0:
@@ -219,7 +219,7 @@ def correlation(t_layers, s_layers, N_c=14):
     return c_loss / len(t_layers) * 1.
 
 
-def main_worker(gpu, ngpus_per_node, config, dp=False):
+def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
     if not dp:
         _setup_worker_env(gpu, ngpus_per_node, config)
     else:
@@ -238,7 +238,7 @@ def main_worker(gpu, ngpus_per_node, config, dp=False):
     if config.DS.SEARCH:
         for module in model.modules():
             if isinstance(module, Changable_Act):
-                module.set_act_fun(config.DS.ACT_FUN)
+                module.set_act_fun(config.DS.ACT_FUN, config=config)
 
             # zwx
             # if isinstance(module, nn.Conv2d):
@@ -246,12 +246,6 @@ def main_worker(gpu, ngpus_per_node, config, dp=False):
             #     out_chl = module.weight.data.shape[0]
             # if isinstance(module, Changable_Act):
             #     module.set_act_fun(config.DS.ACT_FUN, out_chl)
-        
-        # cnt = 0
-        # for name, param in model.named_parameters():
-        #     if 'act' in name:
-        #         cnt = cnt + 1
-        #         print(cnt, name, param.shape)
 
     config.defrost()
     if not config.DS.SEARCH and not config.DS.KEEP_ALL_ACT:
@@ -591,8 +585,7 @@ def main_worker(gpu, ngpus_per_node, config, dp=False):
                 model.module.set_stu_handler(config)
                 teachers.module.set_tea_handler(config, slope)
 
-
-        train_one_epoch(config, model, criterion, data_loader_train, optimizer, epoch, mixup_fn, lr_scheduler, epoch, teachers, model_ema)
+        train_one_epoch(config, args, model, criterion, data_loader_train, optimizer, epoch, mixup_fn, lr_scheduler, epoch, teachers, model_ema)
 
         if config.DS.SEARCH and config.DS.L0_SPARSITY > 0:
             assert 'learnable' in config.DS.ACT_FUN
@@ -601,28 +594,47 @@ def main_worker(gpu, ngpus_per_node, config, dp=False):
             slope_param = []
             for name, param in model.named_parameters():
                 if 'slope_param' in name:
-                    slope_param.append(param.data.item())
-
-            # if config.DS.ACT_FUN == 'learnable_relu_hard' or config.DS.ACT_FUN == 'learnable_relu6_hard' or config.DS.ACT_FUN == 'learnable_gelu_hard':
-            #     id_list = np.argsort(slope_param)[:int(config.DS.L0_SPARSITY*len(slope_param))]
-            #     print(id_list)
-            #     flag_list = np.zeros(len(slope_param))
-            #     flag_list[id_list] = 1
-
-            #     i = 0
-            #     for module in model.modules():
-            #         if isinstance(module, Learnable_Relu_Hard) or isinstance(module, Learnable_Relu6_Hard) or isinstance(module, Learnable_Gelu_Hard):
-            #             module.set_flag(flag_list[i])
-            #             i += 1
+                    if 'SNL' not in args.cfg:
+                        slope_param.append(param.data.item())
+                    # slope_param.append(param.data.cpu().numpy())  # zwx
 
             # zwx
-            for module in model.modules():
-                if isinstance(module, Learnable_Relu6_Hard_SNL):
-                    p = module.slope_param.data.cpu().numpy().squeeze(-1).squeeze(-1)
-                    id_list = np.argsort(p)[:int(config.DS.L0_SPARSITY * module.slope_param.data.shape[1])]
-                    flag_list = np.zeros(module.slope_param.data.shape[1])
-                    flag_list[id_list] = 1
-                    module.slope_param.data[0, :, 0, 0] = torch.tensor(flag_list).cuda()
+            if 'SNL' not in args.cfg:
+                id_list = np.argsort(slope_param)[:int(config.DS.L0_SPARSITY*len(slope_param))]
+                flag_list = np.zeros(len(slope_param))
+                flag_list[id_list] = 1
+
+                i = 0
+                for module in model.modules():
+                    if isinstance(module, Learnable_Relu_Hard) or isinstance(module, Learnable_Relu6_Hard) or isinstance(module, Learnable_Gelu_Hard):
+                        module.set_flag(flag_list[i])
+                        i += 1
+
+            # zwx
+            elif 'SNL' in args.cfg:
+                if config.DS.CHL_WISE:
+                    for module in model.modules():
+                        if isinstance(module, Learnable_Relu6_Hard_SNL):
+                            # print(module.slope_param.data.cpu().numpy().shape)
+                            # print(module.slope_param)
+                            p = module.slope_param.data.cpu().numpy().squeeze(-1).squeeze(-1)
+                            id_list = np.argsort(p).squeeze()[:int(config.DS.L0_SPARSITY * module.slope_param.data.shape[1])]
+                            flag_list = np.zeros(module.slope_param.data.shape[1])
+                            flag_list[id_list] = 1
+                            # print(module.slope_param.shape, flag_list)
+                            # module.slope_param.data[0, :, 0, 0] = torch.tensor(flag_list).cuda()
+                            module.set_flag(torch.tensor(flag_list).cuda())
+                
+                if config.DS.PIXEL_WISE:
+                    for module in model.modules():
+                        if isinstance(module, Learnable_Relu6_Hard_SNL):
+                            p = module.slope_param.data.squeeze()  # (H, W)
+                            p_flat = p.flatten()  # (HW)
+                            id_list = torch.argsort(p_flat)[:int(config.DS.L0_SPARSITY * p_flat.shape[0])]
+                            flag_list = np.zeros(p_flat.shape[0])
+                            flag_list[id_list.cpu().numpy()] = 1
+                            flag_list = flag_list.reshape(p.shape[0], p.shape[1])
+                            module.set_flag(torch.tensor(flag_list).cuda())
 
             else:
                 logger.info('Not implemented activation fuction:%s' % config.DS.ACT_FUN)
@@ -647,7 +659,7 @@ def main_worker(gpu, ngpus_per_node, config, dp=False):
     if config.DS.SEARCH:
         slope_param = []
         for name, param in model.named_parameters():
-            if 'slope_param' in name:
+            if 'slope_param' not in name:
                 slope_param.append(param.data.item())
 
         if config.DS.ACT_FUN == 'learnable_relu_hard' or config.DS.ACT_FUN == 'learnable_relu6_hard' or config.DS.ACT_FUN == 'learnable_gelu_hard' or config.DS.ACT_FUN == 'learnable_relu6_hard_snl':
@@ -667,7 +679,7 @@ def main_worker(gpu, ngpus_per_node, config, dp=False):
             logger.info('Not implemented activation fuction:%s', config.DS.ACT_FUN)
 
 
-def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mixup_fn, lr_scheduler, epoch_id, teacher=None, model_ema=None):
+def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoch, mixup_fn, lr_scheduler, epoch_id, teacher=None, model_ema=None):
     model.train()
     optimizer.zero_grad()
 
@@ -713,9 +725,9 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
             slope_param = []
             for name, param in model.named_parameters():
                 if 'slope_param' in name:
-                    print(name, param.data.shape)
-                    # slope_param.append(param.data.item())
-                    slope_param.append(param.data.cpu().numpy())  # zwx
+                    if 'SNL' not in args.cfg:
+                        slope_param.append(param.data.item())
+                    # slope_param.append(param.data.cpu().numpy())  # zwx
             # print('slope_param len:', len(slope_param))
 
             if config.DS.ACT_FUN == 'learnable_relu_hard' or config.DS.ACT_FUN == 'learnable_relu6_hard' or config.DS.ACT_FUN == 'learnable_gelu_hard' or config.DS.ACT_FUN == 'learnable_relu6_hard_snl':
@@ -724,27 +736,45 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
                     temp = config.DS.GS_SAMPLE.INIT_TEMP * config.DS.GS_SAMPLE.DECAY_RATE ** epoch_id
                     slope_param = gumbel_softmax(slope_param, temperature=temp).data.cpu().numpy()
 
-                # id_list = np.argsort(slope_param)[:int(config.DS.L0_SPARSITY*len(slope_param))]
-                # flag_list = np.zeros(len(slope_param))
-                # flag_list[id_list] = 1
+                # zwx
+                if 'SNL' not in args.cfg:
+                    id_list = np.argsort(slope_param)[:int(config.DS.L0_SPARSITY*len(slope_param))]
+                    flag_list = np.zeros(len(slope_param))
+                    flag_list[id_list] = 1
+                    # print(flag_list)
+
+                    i = 0
+                    for module in model.modules():
+                        if isinstance(module, Learnable_Relu_Hard) or isinstance(module, Learnable_Relu6_Hard) or isinstance(module, Learnable_Gelu_Hard):
+                            module.set_flag(flag_list[i])
+                            i += 1
 
                 # zwx
-                for module in model.modules():
-                    if isinstance(module, Learnable_Relu6_Hard_SNL):
-                        # print(module.slope_param.data.cpu().numpy().shape)
-                        p = module.slope_param.data.cpu().numpy().squeeze(-1).squeeze(-1)
-                        # print(p)
-                        id_list = np.argsort(p)[:int(config.DS.L0_SPARSITY * module.slope_param.data.shape[1])]
-                        flag_list = np.zeros(module.slope_param.data.shape[1])
-                        flag_list[id_list] = 1
-                        module.slope_param.data[0, :, 0, 0] = torch.tensor(flag_list).cuda()
-                        # module.alpha.data[0, :, 0, 0] = torch.tensor(flag_list).cuda()
-                            
-                # i = 0
-                # for module in model.modules():
-                #     if isinstance(module, Learnable_Relu_Hard) or isinstance(module, Learnable_Relu6_Hard) or isinstance(module, Learnable_Gelu_Hard):
-                #         module.set_flag(flag_list[i])
-                #         i += 1
+                elif 'SNL' in args.cfg:
+                    if config.DS.CHL_WISE:
+                        for module in model.modules():
+                            if isinstance(module, Learnable_Relu6_Hard_SNL):
+                                # print(module.slope_param.data.cpu().numpy().shape)
+                                # print(module.slope_param)
+                                p = module.slope_param.data.cpu().numpy().squeeze(-1).squeeze(-1)
+                                id_list = np.argsort(p).squeeze()[:int(config.DS.L0_SPARSITY * module.slope_param.data.shape[1])]
+                                flag_list = np.zeros(module.slope_param.data.shape[1])
+                                flag_list[id_list] = 1
+                                # print(flag_list)
+                                # print(module.slope_param.shape, flag_list)
+                                module.set_flag(torch.tensor(flag_list).cuda())
+                    
+                    if config.DS.PIXEL_WISE:
+                        for module in model.modules():
+                            if isinstance(module, Learnable_Relu6_Hard_SNL):
+                                p = module.slope_param.data.squeeze()  # (H, W)
+                                p_flat = p.flatten()  # (HW)
+                                id_list = torch.argsort(p_flat)[:int(config.DS.L0_SPARSITY * p_flat.shape[0])]
+                                flag_list = np.zeros(p_flat.shape[0])
+                                flag_list[id_list.cpu().numpy()] = 1
+                                flag_list = flag_list.reshape(p.shape[0], p.shape[1])
+                                # print(flag_list)
+                                module.set_flag(torch.tensor(flag_list).cuda())
 
             else:
                 logger.info('Not implemented activation fuction:%s' % config.DS.ACT_FUN)
@@ -767,7 +797,7 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
         # for name, param in model.named_parameters():
         #         print(name, param.data.shape)
         #         if 'slope_param' in name:
-        #             print(name, param.data.shape)
+        #             print(name, param.data)
 
         # if teacher is not None:
         #     t_layers = [t_layers[0]] * len(s_layers)
@@ -917,7 +947,6 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
     logger.info(f"EPOCH {epoch} training takes {datetime.timedelta(seconds=int(epoch_time))}")
 
 
-
 @torch.no_grad()
 def validate(config, data_loader, model, dp=False):
     criterion = torch.nn.CrossEntropyLoss()
@@ -1017,11 +1046,11 @@ if __name__ == '__main__':
     if not args.dp:
         # Use torch.multiprocessing.spawn to launch distributed processes: the
         mp.spawn(
-            main_worker, nprocs=ngpus_per_node, args=(ngpus_per_node, config, False)
+            main_worker, nprocs=ngpus_per_node, args=(ngpus_per_node, config, False, args)
         )
 
     else:
         config.defrost()
         config.PRINT_FREQ = 1
         config.freeze()
-        main_worker(gpu=None, ngpus_per_node=ngpus_per_node, config=config, dp=True)
+        main_worker(gpu=None, ngpus_per_node=ngpus_per_node, config=config, dp=True, args=args)

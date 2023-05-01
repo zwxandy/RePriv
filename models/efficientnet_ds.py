@@ -836,24 +836,28 @@ def _gen_mobilenet_v2_block_ds(
     Ref impl: https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet/mobilenet_v2.py
     Paper: https://arxiv.org/abs/1801.04381
     """
-    arch_def = [
-        # ['ds_r1_k3_s1_c16'],
-        # ['irsa_r2_k3_s2_e6_c24'],
-        # ['irsa_r3_k3_s2_e6_c32'],
-        # ['irsa_r4_k3_s2_e6_c64'],
-        # ['irsa_r3_k3_s1_e6_c96'],
-        # ['irsa_r3_k3_s2_e6_c160'],
-        # ['irsa_r1_k3_s1_e6_c320'],
-
+    share_act = False  # zwx: w/ share_act -> w/o share_act
+    if share_act:
+        arch_def = [
+            ['ds_r1_k3_s1_c16'],
+            ['irsa_r2_k3_s2_e6_c24'],
+            ['irsa_r3_k3_s2_e6_c32'],
+            ['irsa_r4_k3_s2_e6_c64'],
+            ['irsa_r3_k3_s1_e6_c96'],
+            ['irsa_r3_k3_s2_e6_c160'],
+            ['irsa_r1_k3_s1_e6_c320'],
+        ]
+    else:
         # zwx: w/ share_act -> w/o share_act
-        ['ds_r1_k3_s1_c16'],
-        ['ir_r2_k3_s2_e6_c24'],
-        ['ir_r3_k3_s2_e6_c32'],
-        ['ir_r4_k3_s2_e6_c64'],
-        ['ir_r3_k3_s1_e6_c96'],
-        ['ir_r3_k3_s2_e6_c160'],
-        ['ir_r1_k3_s1_e6_c320'],
-    ]
+        arch_def = [
+            ['ds_r1_k3_s1_c16'],
+            ['ir_r2_k3_s2_e6_c24'],
+            ['ir_r3_k3_s2_e6_c32'],
+            ['ir_r4_k3_s2_e6_c64'],
+            ['ir_r3_k3_s1_e6_c96'],
+            ['ir_r3_k3_s2_e6_c160'],
+            ['ir_r1_k3_s1_e6_c320'],
+        ]
     round_chs_fn = partial(round_channels, multiplier=channel_multiplier)
     model_kwargs = dict(
         block_args=decode_arch_def(arch_def, depth_multiplier=depth_multiplier, fix_first_last=fix_stem_head),

@@ -82,9 +82,8 @@ class Changable_Act(nn.Module):
         self.slope = slope
 
 
-    def set_act_fun(self, name, out_chl=3):
+    def set_act_fun(self, name, config):
         self.name = name
-        self.out_chl = out_chl
 
         if self.name == 'learnable_relu':
             self.act_fun = Learnable_Relu()
@@ -93,11 +92,11 @@ class Changable_Act(nn.Module):
         elif self.name == 'learnable_relu_hard':
             self.act_fun = Learnable_Relu_Hard()
         elif self.name == 'learnable_relu6_hard':
-            self.act_fun = Learnable_Relu6_Hard(out_chl=self.out_chl)
+            self.act_fun = Learnable_Relu6_Hard()
         elif self.name == 'learnable_gelu_hard':
             self.act_fun = Learnable_Gelu_Hard()
         elif self.name == 'learnable_relu6_hard_snl':
-            self.act_fun = Learnable_Relu6_Hard_SNL()
+            self.act_fun = Learnable_Relu6_Hard_SNL(config=config)
         else:
             self.act_fun = get_act_fun(self.name)
 
@@ -189,10 +188,8 @@ class Learnable_Relu_Hard(nn.Module):
 
 
 class Learnable_Relu6_Hard(nn.Module):
-    def __init__(self, slope_init=0., out_chl=3):
+    def __init__(self, slope_init=0.):
         super(Learnable_Relu6_Hard, self).__init__()
-
-        self.out_chl = out_chl
 
         self.slope_param = nn.Parameter(torch.tensor(slope_init))
         # self.slope_param = nn.Parameter(torch.zeros((1, self.out_chl, 1, 1)))  # zwx: channel-wise
@@ -201,12 +198,15 @@ class Learnable_Relu6_Hard(nn.Module):
 
         self.slope_lr_scale = 1
 
-        self.out_chl = out_chl
+        self.test = None
 
     def set_flag(self, flag):
         self.flag = flag
 
     def forward(self, x):
+        if self.test is None:
+            self.test = nn.Parameter(torch.zeros(1, 1, 1))
+
         x_act = F.relu(x) - F.relu(x-6)
 
         slope = (self.slope_param - self.slope_param * self.slope_lr_scale).detach() + self.slope_param * self.slope_lr_scale
@@ -225,34 +225,43 @@ class Learnable_Relu6_Hard(nn.Module):
         return x
         
 
+# zwx
 class Learnable_Relu6_Hard_SNL(nn.Module):
-    def __init__(self, slope_init=0.):
+    def __init__(self, slope_init=0., config=None):
         super(Learnable_Relu6_Hard_SNL, self).__init__()
 
+        self.config = config
+        self.flag = torch.ones(1, 1, 1, 1).cuda()
         self.slope_lr_scale = 1
-        # self.slope_param = nn.Parameter(torch.zeros(1, 2000, 1, 1), requires_grad=True)
         self.slope_param = None
+        self.chl_wise = False
+        self.pixel_wise = not self.chl_wise
 
     def set_flag(self, flag):
         self.flag = flag
 
     def forward(self, x):
-        # if self.slope_param.data.shape[1] == 2000:
         if self.slope_param is None:
             _, C, H, W = x.shape
-            self.slope_param = nn.Parameter(torch.zeros((1, C, 1, 1)), requires_grad=True).cuda()  # zwx: channel-wise
-            # cur_slope_param = self.slope_param.data[:, :C, :, :]
+            if self.config.DS.CHL_WISE:
+                self.slope_param = nn.Parameter(torch.zeros((1, C, 1, 1)).cuda(), requires_grad=True)
+            elif self.config.DS.PIXEL_WISE:
+                self.slope_param = nn.Parameter(torch.zeros((1, 1, H, W)).cuda(), requires_grad=True)
 
         x_act = F.relu(x) - F.relu(x-6)
 
         slope = (self.slope_param - self.slope_param * self.slope_lr_scale).detach() + self.slope_param * self.slope_lr_scale
-        # slope = (cur_slope_param - cur_slope_param * self.slope_lr_scale).detach() + cur_slope_param * self.slope_lr_scale
 
-        x = torch.clamp(slope, 0, 1) * x_act + (1 - torch.clamp(slope, 0, 1)) * x
+        x1 = x_act + (x - x_act) * (0 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
+        x2 = x_act + (x - x_act) * (1 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
 
-        # x1 = x_act + (x - x_act) * (0 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
-        # x2 = x_act + (x - x_act) * (1 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
-        # x = self.flag * x1 + (1 - self.flag) * x2
+        if len(self.flag.shape) == 1:
+            self.flag = self.flag.unsqueeze(0).unsqueeze(2).unsqueeze(2).to(torch.float32)
+        if len(self.flag.shape) == 2:
+            self.flag = self.flag.unsqueeze(0).unsqueeze(0).to(torch.float32)
+        # print(x1.shape, x2.shape, self.flag.shape)
+
+        x = self.flag * x1 + (1 - self.flag) * x2
 
         return x
 

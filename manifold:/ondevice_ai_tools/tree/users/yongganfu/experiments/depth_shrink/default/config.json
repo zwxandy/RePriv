@@ -32,6 +32,7 @@ DS:
   ACT_FUN: learnable_relu6_hard_snl
   ACT_LIST: []
   ADD_FINAL_ACT: relu6
+  CHL_WISE: false
   DECAY_MODE: iter
   DECAY_SLOPE: false
   DISTILL: false
@@ -97,8 +98,9 @@ DS:
   - 34.261
   - 23.0013
   LAT_COST_WEIGHT: 0.0001
-  MERGE: true
+  MERGE: false
   NO_BN_STATS: false
+  PIXEL_WISE: true
   PRETRAINED: ''
   PROG_REMOVE: false
   PROG_REMOVE_EPOCH: 120
@@ -157,7 +159,7 @@ TRAIN:
   WARMUP_LR: 2.5e-07
   WEIGHT_DECAY: 1.0e-05
 WORLD_SIZE: 1
-dist_url: tcp://127.0.0.1:10003
+dist_url: tcp://127.0.0.1:10002
 gpu: 0
 machine_rank: 0
 num_nodes: 1
