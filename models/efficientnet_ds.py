@@ -836,7 +836,7 @@ def _gen_mobilenet_v2_block_ds(
     Ref impl: https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet/mobilenet_v2.py
     Paper: https://arxiv.org/abs/1801.04381
     """
-    share_act = False  # zwx: w/ share_act -> w/o share_act
+    share_act = False  # zwx: DS w/ share_act (True) -> SNL w/o share_act (False)
     if share_act:
         arch_def = [
             ['ds_r1_k3_s1_c16'],

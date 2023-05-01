@@ -238,7 +238,7 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
     if config.DS.SEARCH:
         for module in model.modules():
             if isinstance(module, Changable_Act):
-                module.set_act_fun(config.DS.ACT_FUN, config=config)
+                module.set_act_fun(config.DS.ACT_FUN, config=config)  # zwx
 
             # zwx
             # if isinstance(module, nn.Conv2d):
@@ -829,10 +829,11 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                     model.module.clear_feature_list()
                     teacher.module.clear_feature_list()
 
-            lat_cost = 0
-            for k in range(len(slope_param_list)):
-                lat_cost = lat_cost + (config.DS.LAT_BEFORE[k] - config.DS.LAT_AFTER[k]) * slope_param_list[k]
-            loss = loss + lat_cost * config.DS.LAT_COST_WEIGHT
+            if 'SNL' not in args.cfg:  # zwx
+                lat_cost = 0
+                for k in range(len(slope_param_list)):
+                    lat_cost = lat_cost + (config.DS.LAT_BEFORE[k] - config.DS.LAT_AFTER[k]) * slope_param_list[k]
+                loss = loss + lat_cost * config.DS.LAT_COST_WEIGHT
 
             loss = loss / config.TRAIN.ACCUMULATION_STEPS
             if config.AMP_OPT_LEVEL != "O0":
@@ -891,11 +892,12 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                 if hasattr(module, 'slope_param'):
                     slope_param_list.append(module.slope_param)
 
-            lat_cost = 0
-            # print('slope_param list len:', len(slope_param_list))
-            # for k in range(len(slope_param_list)):
-            #     lat_cost = lat_cost + (config.DS.LAT_BEFORE[k] - config.DS.LAT_AFTER[k]) * slope_param_list[k]
-            # loss = loss + lat_cost * config.DS.LAT_COST_WEIGHT
+            if 'SNL' not in args.cfg:  # zwx
+                lat_cost = 0
+                # print('slope_param list len:', len(slope_param_list))
+                for k in range(len(slope_param_list)):
+                    lat_cost = lat_cost + (config.DS.LAT_BEFORE[k] - config.DS.LAT_AFTER[k]) * slope_param_list[k]
+                loss = loss + lat_cost * config.DS.LAT_COST_WEIGHT
 
             if not math.isfinite(loss.item()):
                 continue

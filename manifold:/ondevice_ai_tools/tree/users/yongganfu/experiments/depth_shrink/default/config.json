@@ -29,10 +29,10 @@ DS:
   ACT_DISTRIB: first
   ACT_FROM_LIST: false
   ACT_FROM_SEARCH: true
-  ACT_FUN: learnable_relu6_hard_snl
+  ACT_FUN: learnable_relu6_hard
   ACT_LIST: []
   ADD_FINAL_ACT: relu6
-  CHL_WISE: false
+  CHL_WISE: true
   DECAY_MODE: iter
   DECAY_SLOPE: false
   DISTILL: false
@@ -98,9 +98,9 @@ DS:
   - 34.261
   - 23.0013
   LAT_COST_WEIGHT: 0.0001
-  MERGE: false
+  MERGE: true
   NO_BN_STATS: false
-  PIXEL_WISE: true
+  PIXEL_WISE: false
   PRETRAINED: ''
   PROG_REMOVE: false
   PROG_REMOVE_EPOCH: 120
