@@ -462,6 +462,7 @@ class EfficientNet(nn.Module):
                     cnt += 1
 
             # print('set slope:', slope, 'cnt:', cnt)
+            # print(cnt, len(slope))
             assert cnt == len(slope)
 
         else:

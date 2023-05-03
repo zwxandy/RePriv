@@ -24,9 +24,9 @@ AUG:
   # REPROB: 0.
 
 DS:
-  PRETRAINED: ""
+  PRETRAINED: "/home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth"
 
-  DISTILL: False
+  DISTILL: True
   DISTILL_WEIGHT: 0.7
   DISTILL_FEATURE: False
   DISTILL_FEATURE_WEIGHT: 1e-3
@@ -37,7 +37,7 @@ DS:
   ACT_LIST: []
 
   ACT_FROM_SEARCH: True
-  SEARCH_CKPT: "/home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth"
+  SEARCH_CKPT: "/home/zwx/projects/DepthShrinker/manifold:/experiment/default/ckpt.pth"
 
   DECAY_SLOPE: False
   DECAY_MODE: 'iter'
@@ -47,10 +47,10 @@ DS:
   START_SLOPE: 0
   END_SLOPE: 1
 
-  SEARCH: True
-  L0_SPARSITY: 0.4
+  SEARCH: False
+  L0_SPARSITY: 0.6
 
-  ADD_FINAL_ACT: 'relu6'
+  ADD_FINAL_ACT: ''
 
   MERGE: False
 

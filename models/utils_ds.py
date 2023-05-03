@@ -10,7 +10,19 @@ def get_act_fun(name):
         return F.leaky_relu(x, negative_slope=slope)
 
     def relu6(x, slope=0):
-        return F.leaky_relu(x, negative_slope=slope) + (slope-1) * F.relu(x-6)
+        # zwx
+        CHL_WISE = True
+        PIXEL_WISE = not CHL_WISE
+        if isinstance(slope, int):
+            return F.leaky_relu(x, negative_slope=slope) + (slope-1) * F.relu(x-6)
+        elif CHL_WISE:
+            slope = torch.tensor(slope).unsqueeze(0).unsqueeze(2).unsqueeze(2).cuda()
+            out = torch.maximum(torch.zeros_like(x), x) + slope * torch.minimum(torch.zeros_like(x), x) + (slope - 1) * F.relu(x - 6)
+            return out.to(torch.float32)
+        elif PIXEL_WISE:
+            slope = torch.tensor(slope).unsqueeze(0).unsqueeze(0).cuda()
+            out = torch.maximum(torch.zeros_like(x), x) + slope * torch.minimum(torch.zeros_like(x), x) + (slope - 1) * F.relu(x - 6)
+            return out.to(torch.float32)
 
     def gelu(x, slope=0):  # slope decay not implemented
         return F.gelu(x)
@@ -84,6 +96,7 @@ class Changable_Act(nn.Module):
 
     def set_act_fun(self, name, config):
         self.name = name
+        self.config = config
 
         if self.name == 'learnable_relu':
             self.act_fun = Learnable_Relu()
@@ -96,7 +109,7 @@ class Changable_Act(nn.Module):
         elif self.name == 'learnable_gelu_hard':
             self.act_fun = Learnable_Gelu_Hard()
         elif self.name == 'learnable_relu6_hard_snl':
-            self.act_fun = Learnable_Relu6_Hard_SNL(config=config)
+            self.act_fun = Learnable_Relu6_Hard_SNL(config=self.config)
         else:
             self.act_fun = get_act_fun(self.name)
 
@@ -192,7 +205,6 @@ class Learnable_Relu6_Hard(nn.Module):
         super(Learnable_Relu6_Hard, self).__init__()
 
         self.slope_param = nn.Parameter(torch.tensor(slope_init))
-        # self.slope_param = nn.Parameter(torch.zeros((1, self.out_chl, 1, 1)))  # zwx: channel-wise
 
         self.flag = 1
 
@@ -210,16 +222,11 @@ class Learnable_Relu6_Hard(nn.Module):
         x_act = F.relu(x) - F.relu(x-6)
 
         slope = (self.slope_param - self.slope_param * self.slope_lr_scale).detach() + self.slope_param * self.slope_lr_scale
-       
-        # x = torch.clamp(slope, 0, 1) * x_act + (1 - torch.clamp(slope, 0, 1)) * x  # zwx
         
-        # for c in range(self.out_chl):  # zwx
         if self.flag:
             x = x_act + (x - x_act) * (0 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
-            # x += x_act + (x - x_act) * (0 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
         else:
             x = x_act + (x - x_act) * (1 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
-            # x += x_act + (x - x_act) * (1 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
         
 
         return x

@@ -71,7 +71,7 @@ def parse_option():
     parser.add_argument('--cfg', type=str, required=True, metavar="FILE", help='path to config file', )
     parser.add_argument('--working-dir',
         type=str, required=False,
-        default="manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink",
+        default="manifold://experiment",
         help='root dir for models and logs',
     )
     parser.add_argument('--data_path',
@@ -102,7 +102,7 @@ def parse_option():
     parser.add_argument("--machine-rank", default=0, type=int, help="machine rank, distributed setting")
     parser.add_argument("--num-machines", default=1, type=int, help="number of nodes, distributed setting")
     parser.add_argument("--workflow-run-id", default="", type=str, help="fblearner job id")
-    parser.add_argument("--dist-url", default="tcp://127.0.0.1:10002", type=str, help="init method, distributed setting")
+    parser.add_argument("--dist-url", default="tcp://127.0.0.1:10000", type=str, help="init method, distributed setting")
 
     parser.add_argument('--distill', action='store_true', help='If use distillation in ViT training')
 
@@ -260,21 +260,45 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
             slope_param = []
             for key in ckpt.keys():
                 if 'slope_param' in key:
-                    slope_param.append(ckpt[key].data.item())
+                    # zwx
+                    if 'SNL' not in args.cfg:
+                        slope_param.append(ckpt[key].data.item())
+                    elif 'SNL' in args.cfg:
+                        slope_param.append(ckpt[key].data.cpu().numpy())
 
             if 'relu' in config.DS.ACT_FUN or 'gelu' in config.DS.ACT_FUN:
-                all_zero = np.zeros(len(slope_param))
-                rank_s2l = np.argsort(slope_param)
+                # zwx
+                if 'SNL' not in args.cfg:
+                    all_zero = np.zeros(len(slope_param))
+                    rank_s2l = np.argsort(slope_param)
 
-                act_ind_list = all_zero.copy()
+                    act_ind_list = all_zero.copy()
 
-                k = int(len(slope_param)*config.DS.L0_SPARSITY)
-                act_ind_list[rank_s2l[:k]] = 1
+                    k = int(len(slope_param)*config.DS.L0_SPARSITY)
+                    act_ind_list[rank_s2l[:k]] = 1
 
-                logger.info('Keep %.1f%%  activation funtions: %s', config.DS.L0_SPARSITY*100, act_ind_list)
-                config.act_ind_list = list(act_ind_list)
+                    logger.info('Keep %.1f%%  activation funtions: %s', config.DS.L0_SPARSITY*100, act_ind_list)
+                    config.act_ind_list = list(act_ind_list)
 
-                # input()
+                elif 'SNL' in args.cfg:
+                    if config.DS.CHL_WISE:
+                        config.act_ind_list = []
+                        for s in slope_param:
+                            p = s.squeeze()
+                            id_list = np.argsort(p)[:int(config.DS.L0_SPARSITY * s.shape[1])]
+                            act_ind_list = np.ones(s.shape[1])
+                            act_ind_list[id_list] = 0
+                            config.act_ind_list.append(act_ind_list)
+                    if config.DS.PIXEL_WISE:
+                        config.act_ind_list = []
+                        for s in slope_param:
+                            p = s.squeeze()  # (H, W)
+                            p_flat = p.flatten()  # (HW)
+                            id_list = np.argsort(p_flat)[:int(config.DS.L0_SPARSITY * p_flat.shape[0])]
+                            act_ind_list = np.ones(p_flat.shape[0])
+                            act_ind_list[id_list] = 0
+                            act_ind_list = act_ind_list.reshape(p.shape[0], p.shape[1])
+                            config.act_ind_list.append(act_ind_list)
 
             else:
                 logger.info('Not implemented activation fuction:%s', config.DS.ACT_FUN)
@@ -292,10 +316,14 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
     if config.EVAL_MODE or (not config.DS.SEARCH and not config.DS.DECAY_SLOPE and not config.DS.KEEP_ALL_ACT):
         slope = []
         for act_ind in config.act_ind_list:
-            if act_ind:
-                slope.append(config.DS.START_SLOPE)
-            else:
-                slope.append(config.DS.END_SLOPE)
+            # zwx
+            if 'SNL' not in args.cfg:
+                if act_ind:
+                    slope.append(config.DS.START_SLOPE)
+                else:
+                    slope.append(config.DS.END_SLOPE)
+            elif 'SNL' in args.cfg:
+                slope.append(act_ind)
 
         model.set_slope(slope)
 
@@ -415,6 +443,7 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
 
 
     if config.DS.DISTILL:
+        print('Using KD...')
         teachers = build_model(config)
 
         checkpoint_name = config.DS.PRETRAINED 
@@ -603,6 +632,7 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
                 id_list = np.argsort(slope_param)[:int(config.DS.L0_SPARSITY*len(slope_param))]
                 flag_list = np.zeros(len(slope_param))
                 flag_list[id_list] = 1
+                # print(flag_list)
 
                 i = 0
                 for module in model.modules():
@@ -741,7 +771,7 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                     id_list = np.argsort(slope_param)[:int(config.DS.L0_SPARSITY*len(slope_param))]
                     flag_list = np.zeros(len(slope_param))
                     flag_list[id_list] = 1
-                    # print(flag_list)
+                    print(flag_list)
 
                     i = 0
                     for module in model.modules():

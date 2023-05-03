@@ -3993,3 +3993,4699 @@ Unsupported operator aten::add_ encountered 10 time(s)
 number of GFLOPs: 0.60143048
 Start training
 Train: [0/180][0/10009]	eta 2 days, 19:33:10 lr 0.050000	data 20.1365 (20.1365)	batch 24.2972 (24.2972)	loss 6.9348 (6.9348)	grad_norm 1.9783 (1.9783)	mem 24443MB
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: false
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.4
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: ''
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: true
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10002
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act(
+    (act_fun): Learnable_Relu6_Hard()
+  )
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act(
+    (act_fun): Learnable_Relu6_Hard()
+  )
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+number of params (M): 6.108795
+Unsupported operator aten::sub encountered 140 time(s)
+Unsupported operator aten::mul encountered 105 time(s)
+Unsupported operator aten::add encountered 105 time(s)
+Unsupported operator aten::rsub encountered 35 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Train: [0/180][0/10009]	eta 2 days, 21:26:14 lr 0.050000	data 20.9004 (20.9004)	batch 24.9749 (24.9749)	loss 6.9348 (6.9348)	grad_norm 1.9784 (1.9784)	mem 24443MB
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: false
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.4
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: ''
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: true
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10002
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act(
+    (act_fun): Learnable_Relu6_Hard()
+  )
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act(
+    (act_fun): Learnable_Relu6_Hard()
+  )
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+number of params (M): 6.108795
+Unsupported operator aten::sub encountered 140 time(s)
+Unsupported operator aten::mul encountered 105 time(s)
+Unsupported operator aten::add encountered 105 time(s)
+Unsupported operator aten::rsub encountered 35 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Train: [0/180][0/10009]	eta 2 days, 17:01:35 lr 0.050000	data 20.0382 (20.0382)	batch 23.3885 (23.3885)	loss 6.9348 (6.9348)	grad_norm 1.9783 (1.9783)	mem 24443MB
+Train: [0/180][50/10009]	eta 4:58:53 lr 0.050000	data 0.0006 (0.3935)	batch 1.6625 (1.8008)	loss 6.8957 (6.9130)	grad_norm 1.6183 (1.6671)	mem 24443MB
+Train: [0/180][100/10009]	eta 4:14:28 lr 0.050000	data 0.0006 (0.1990)	batch 0.6934 (1.5409)	loss 6.9139 (6.8994)	grad_norm 1.8131 (1.6928)	mem 24443MB
+Train: [0/180][150/10009]	eta 3:46:18 lr 0.050000	data 0.0005 (0.1333)	batch 1.1100 (1.3773)	loss 6.7789 (6.8806)	grad_norm 1.7412 (1.7185)	mem 24443MB
+Train: [0/180][200/10009]	eta 3:29:59 lr 0.050000	data 0.0005 (0.1003)	batch 0.9860 (1.2845)	loss 6.7461 (6.8518)	grad_norm 1.6940 (1.7416)	mem 24443MB
+Train: [0/180][250/10009]	eta 3:31:30 lr 0.050000	data 0.0004 (0.0804)	batch 1.3831 (1.3004)	loss 6.6323 (6.8214)	grad_norm 1.5534 (1.7314)	mem 24443MB
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: false
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.4
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 0
+  - 41.78
+  - 5.45
+  - 6.68
+  - 3.23
+  - 4.12
+  - 4.12
+  - 2.38
+  - 2.72
+  - 2.72
+  - 2.72
+  - 3.75
+  - 5.04
+  - 5.04
+  - 3.44
+  - 2.8
+  - 2.8
+  - 4.38
+  - 0
+  LAT_BEFORE:
+  - 0
+  - 56.97
+  - 138.79
+  - 82.45
+  - 47.03
+  - 34.51
+  - 34.51
+  - 21.19
+  - 17.91
+  - 17.91
+  - 17.91
+  - 20.75
+  - 31.27
+  - 31.27
+  - 16.67
+  - 14.21
+  - 14.21
+  - 18.77
+  - 0
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: ''
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: true
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10002
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act(
+    (act_fun): Learnable_Relu6_Hard()
+  )
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act(
+          (act_fun): Learnable_Relu6_Hard()
+        )
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act(
+    (act_fun): Learnable_Relu6_Hard()
+  )
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+number of params (M): 6.108795
+Unsupported operator aten::sub encountered 140 time(s)
+Unsupported operator aten::mul encountered 105 time(s)
+Unsupported operator aten::add encountered 105 time(s)
+Unsupported operator aten::rsub encountered 35 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Train: [0/180][0/10009]	eta 2 days, 11:19:57 lr 0.050000	data 17.5929 (17.5929)	batch 21.3406 (21.3406)	loss 6.9348 (6.9348)	grad_norm 1.9753 (1.9753)	mem 24443MB
+Train: [0/180][50/10009]	eta 5:02:05 lr 0.050000	data 0.0003 (0.3455)	batch 1.4073 (1.8200)	loss 6.8789 (6.9038)	grad_norm 1.5637 (1.5805)	mem 24443MB
+Train: [0/180][100/10009]	eta 4:27:03 lr 0.050000	data 0.0004 (0.1747)	batch 1.3938 (1.6171)	loss 6.8834 (6.8808)	grad_norm 1.7172 (1.6465)	mem 24443MB
+Train: [0/180][150/10009]	eta 4:14:21 lr 0.050000	data 0.0004 (0.1170)	batch 1.4596 (1.5480)	loss 6.7391 (6.8483)	grad_norm 1.7263 (1.6939)	mem 24443MB
+Train: [0/180][200/10009]	eta 4:07:21 lr 0.050000	data 0.0004 (0.0880)	batch 1.4220 (1.5130)	loss 6.6139 (6.8104)	grad_norm 1.6233 (1.6943)	mem 24443MB
+Train: [0/180][250/10009]	eta 4:01:36 lr 0.050000	data 0.0004 (0.0706)	batch 1.4450 (1.4854)	loss 6.5525 (6.7727)	grad_norm 1.5274 (1.6934)	mem 24443MB
+Train: [0/180][300/10009]	eta 3:58:13 lr 0.050000	data 0.0004 (0.0589)	batch 1.4223 (1.4722)	loss 6.7011 (6.7403)	grad_norm 1.6839 (1.6703)	mem 24443MB
+Train: [0/180][350/10009]	eta 3:55:28 lr 0.050000	data 0.0004 (0.0506)	batch 1.2519 (1.4627)	loss 6.4277 (6.7079)	grad_norm 1.4683 (1.6479)	mem 24443MB
+Train: [0/180][400/10009]	eta 3:52:42 lr 0.050000	data 0.0004 (0.0443)	batch 1.4211 (1.4531)	loss 6.3531 (6.6797)	grad_norm 1.3976 (1.6261)	mem 24443MB
+Train: [0/180][450/10009]	eta 3:50:44 lr 0.050000	data 0.0004 (0.0395)	batch 1.3474 (1.4483)	loss 6.3842 (6.6497)	grad_norm 1.3595 (1.6103)	mem 24443MB
+Train: [0/180][500/10009]	eta 3:48:55 lr 0.050000	data 0.0005 (0.0356)	batch 1.4383 (1.4445)	loss 6.3939 (6.6211)	grad_norm 1.4858 (1.5969)	mem 24443MB
+Train: [0/180][550/10009]	eta 3:47:12 lr 0.050000	data 0.0003 (0.0324)	batch 1.3784 (1.4412)	loss 6.2202 (6.5937)	grad_norm 1.3444 (1.5817)	mem 24443MB
+Train: [0/180][600/10009]	eta 3:45:32 lr 0.050000	data 0.0005 (0.0297)	batch 1.4368 (1.4382)	loss 6.2332 (6.5700)	grad_norm 1.3824 (1.5662)	mem 24443MB
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: false
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.4
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: ''
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10005
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 40.0%  activation funtions: [1. 1. 1. 0. 1. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0.]
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act()
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act()
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act()
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+number of params (M): 6.108776
+Unsupported operator aten::leaky_relu encountered 46 time(s)
+Unsupported operator aten::sub encountered 46 time(s)
+Unsupported operator aten::mul encountered 46 time(s)
+Unsupported operator aten::add encountered 46 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Train: [0/180][0/10009]	eta 2 days, 12:46:11 lr 0.050000	data 19.3470 (19.3470)	batch 21.8575 (21.8575)	loss 6.9128 (6.9128)	grad_norm 6.8024 (6.8024)	mem 20530MB
+Train: [0/180][50/10009]	eta 2:34:37 lr 0.050000	data 0.0005 (0.3800)	batch 0.5115 (0.9316)	loss 6.8791 (6.9126)	grad_norm 2.7329 (3.4410)	mem 20530MB
+Train: [0/180][100/10009]	eta 1:58:47 lr 0.050000	data 0.0005 (0.1922)	batch 0.4960 (0.7193)	loss 6.9011 (6.9057)	grad_norm 2.5896 (3.0410)	mem 20530MB
+Train: [0/180][150/10009]	eta 1:46:51 lr 0.050000	data 0.0005 (0.1287)	batch 0.5064 (0.6504)	loss 6.8957 (6.8991)	grad_norm 2.3467 (2.8456)	mem 20530MB
+Train: [0/180][200/10009]	eta 1:41:02 lr 0.050000	data 0.0005 (0.0968)	batch 0.5228 (0.6181)	loss 6.7937 (6.8854)	grad_norm 2.1783 (2.7087)	mem 20530MB
+Train: [0/180][250/10009]	eta 1:36:54 lr 0.050000	data 0.0006 (0.0777)	batch 0.5261 (0.5958)	loss 6.7243 (6.8702)	grad_norm 2.1056 (2.6080)	mem 20530MB
+Train: [0/180][300/10009]	eta 1:34:08 lr 0.050000	data 0.0005 (0.0648)	batch 0.5074 (0.5818)	loss 6.8053 (6.8516)	grad_norm 2.2037 (2.5326)	mem 20530MB
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.4
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: ''
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10005
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 40.0%  activation funtions: [1. 1. 1. 0. 1. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0.]
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act()
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act()
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act()
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.4
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10005
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 40.0%  activation funtions: [1. 1. 1. 0. 1. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0.]
+Successfully load pretrained model: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act()
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act()
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act()
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+Successfully build teacher model
+number of params (M): 6.108776
+Unsupported operator aten::leaky_relu encountered 46 time(s)
+Unsupported operator aten::sub encountered 46 time(s)
+Unsupported operator aten::mul encountered 46 time(s)
+Unsupported operator aten::add encountered 46 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Train: [0/180][0/10009]	eta 2 days, 10:51:16 lr 0.050000	data 18.1574 (18.1574)	batch 21.1686 (21.1686)	loss 38.5253 (38.5253)	grad_norm 119.8760 (119.8760)	mem 20575MB
+Train: [0/180][50/10009]	eta 3:06:26 lr 0.050000	data 0.0088 (0.3572)	batch 0.7553 (1.1233)	loss 40.5147 (24.4810)	grad_norm 71.1019 (70.9417)	mem 20575MB
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.6
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10005
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 60.0%  activation funtions: [1. 1. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 1. 0. 0. 1. 0. 1. 0.]
+Successfully load pretrained model: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act()
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act()
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act()
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+Successfully build teacher model
+number of params (M): 6.108776
+Unsupported operator aten::leaky_relu encountered 42 time(s)
+Unsupported operator aten::sub encountered 42 time(s)
+Unsupported operator aten::mul encountered 42 time(s)
+Unsupported operator aten::add encountered 42 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Train: [0/180][0/10009]	eta 2 days, 10:03:47 lr 0.050000	data 17.6844 (17.6844)	batch 20.8839 (20.8839)	loss 35.0835 (35.0835)	grad_norm 123.3671 (123.3671)	mem 20474MB
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.8
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10000
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.8
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10000
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 80.0%  activation funtions: [1. 1. 1. 0. 1. 1. 0. 1. 0. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1.]
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.6
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10000
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 60.0%  activation funtions: [1. 1. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 1. 0. 0. 1. 0. 1. 0.]
+Successfully load pretrained model: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act()
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act()
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act()
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+Successfully build teacher model
+number of params (M): 6.108776
+Unsupported operator aten::leaky_relu encountered 42 time(s)
+Unsupported operator aten::sub encountered 42 time(s)
+Unsupported operator aten::mul encountered 42 time(s)
+Unsupported operator aten::add encountered 42 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.6
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10000
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.8
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10000
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 80.0%  activation funtions: [1. 1. 1. 0. 1. 1. 0. 1. 0. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1.]
+Successfully load pretrained model: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act()
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act()
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act()
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+Successfully build teacher model
+number of params (M): 6.108776
+Unsupported operator aten::leaky_relu encountered 39 time(s)
+Unsupported operator aten::sub encountered 39 time(s)
+Unsupported operator aten::mul encountered 39 time(s)
+Unsupported operator aten::add encountered 39 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.8
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: true
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10000
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 80.0%  activation funtions: [1. 1. 1. 0. 1. 1. 0. 1. 0. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1.]
+Successfully load pretrained model: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+EfficientNet(
+  (conv_stem): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): Changable_Act()
+  (blocks): Sequential(
+    (0): Sequential(
+      (0): DepthwiseSeparableConv(
+        (conv_dw): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): Changable_Act()
+        (se): Identity()
+        (conv_pw): Conv2d(48, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): Identity()
+      )
+    )
+    (1): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(144, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=144, bias=False)
+        (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (2): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+    )
+    (3): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(288, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=288, bias=False)
+        (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(288, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (3): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (4): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(88, 528, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(528, 528, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=528, bias=False)
+        (bn2): BatchNorm2d(528, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(528, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 136, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(136, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (5): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(136, 816, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(816, 816, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=816, bias=False)
+        (bn2): BatchNorm2d(816, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(816, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Final_Act()
+      )
+      (1): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+      (2): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 224, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(224, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+    (6): Sequential(
+      (0): InvertedResidual_Share_Act(
+        (conv_pw): Conv2d(224, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act): Changable_Act()
+        (conv_dw): Conv2d(1344, 1344, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1344, bias=False)
+        (bn2): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): Identity()
+        (conv_pwl): Conv2d(1344, 448, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(448, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (final_act): Identity()
+      )
+    )
+  )
+  (conv_head): Conv2d(448, 1792, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(1792, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): Changable_Act()
+  (global_pool): SelectAdaptivePool2d (pool_type=avg, flatten=Flatten(start_dim=1, end_dim=-1))
+  (classifier): Linear(in_features=1792, out_features=1000, bias=True)
+)
+Successfully build teacher model
+number of params (M): 6.108776
+Unsupported operator aten::leaky_relu encountered 39 time(s)
+Unsupported operator aten::sub encountered 39 time(s)
+Unsupported operator aten::mul encountered 39 time(s)
+Unsupported operator aten::add encountered 39 time(s)
+Unsupported operator aten::add_ encountered 10 time(s)
+number of GFLOPs: 0.60143048
+Start training
+Full config saved to manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/config.json
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m5-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /opt/dataset/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 6
+  PIN_MEMORY: true
+  PREFETCH_FACTOR: 6
+  ZIP_MODE: false
+DISTILL: false
+DS:
+  ACT_DISTRIB: first
+  ACT_FROM_LIST: false
+  ACT_FROM_SEARCH: true
+  ACT_FUN: learnable_relu6_hard_snl
+  ACT_LIST: []
+  ADD_FINAL_ACT: relu6
+  CHL_WISE: true
+  DECAY_MODE: iter
+  DECAY_SLOPE: false
+  DISTILL: true
+  DISTILL_FEATURE: false
+  DISTILL_FEATURE_WEIGHT: 0.001
+  DISTILL_WEIGHT: 0.7
+  EA:
+    CYCLES: 5000
+    POP_SIZE: 64
+    SAMPLE_SIZE: 16
+    SEARCH: false
+    SPARSE_RATIO: 0.5
+  END_EPOCH: 0
+  END_SLOPE: 1
+  EXPAND_RATIO: 6
+  FINAL_ACT_LR_SCALE: 1.0
+  GS_SAMPLE:
+    DECAY_RATE: 0.95
+    ENABLE: false
+    EPOCH: 60
+    INIT_TEMP: 3
+  KEEP_ALL_ACT: false
+  L0_SPARSITY: 0.6
+  L1_WEIGHT: 0.0
+  LAT_AFTER:
+  - 11.38781
+  - 17.8929
+  - 8.85087
+  - 4.89339
+  - 4.36431
+  - 2.21807
+  - 2.21807
+  - 2.95533
+  - 3.1424
+  - 3.1424
+  - 3.1424
+  - 4.53318
+  - 6.70935
+  - 6.70935
+  - 7.68199
+  - 7.07067
+  - 7.07067
+  - 13.7805
+  - 23.0013
+  LAT_BEFORE:
+  - 18.5039
+  - 59.0279
+  - 67.7049
+  - 61.0657
+  - 30.3438
+  - 23.3904
+  - 23.3904
+  - 13.6589
+  - 18.5797
+  - 18.5797
+  - 18.5797
+  - 21.1564
+  - 35.212
+  - 35.212
+  - 23.3629
+  - 25.978
+  - 25.978
+  - 34.261
+  - 23.0013
+  LAT_COST_WEIGHT: 0.0001
+  MERGE: false
+  NO_BN_STATS: false
+  PIXEL_WISE: false
+  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PROG_REMOVE: false
+  PROG_REMOVE_EPOCH: 120
+  PROG_REMOVE_MODE: forward
+  RANDOM_DROP: false
+  REMOVE_BLOCK: false
+  SEARCH: false
+  SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default/ckpt.pth
+  START_EPOCH: 0
+  START_SLOPE: 0
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_BLOCK_RATE: 0.0
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: mobilenetv2_140_block_ds
+  NUM_CLASSES: 1000
+  RESUME: ''
+  TYPE: mobilenetv2_140_block_ds
+OUTPUT: manifold://ondevice_ai_tools/tree/users/yongganfu/experiments/depth_shrink/default
+PRINT_FREQ: 50
+RANK: 0
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: false
+  BASE_BATCH_SIZE: 256
+  BASE_LR: 0.05
+  CLIP_GRAD: 5.0
+  EPOCHS: 180
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MAX: 192
+  MIN_LR: 2.5e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  USE_CONV_PROJ: true
+  WARMUP_EPOCHS: 0
+  WARMUP_LR: 2.5e-07
+  WEIGHT_DECAY: 1.0e-05
+WORLD_SIZE: 1
+dist_url: tcp://127.0.0.1:10000
+gpu: 0
+machine_rank: 0
+num_nodes: 1
+
+Creating model:mobilenetv2_140_block_ds/mobilenetv2_140_block_ds
+Keep 60.0%  activation funtions: [1. 1. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 1. 0. 0. 1. 0. 1. 0.]
