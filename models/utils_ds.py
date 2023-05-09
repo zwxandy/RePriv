@@ -222,11 +222,17 @@ class Learnable_Relu6_Hard(nn.Module):
         x_act = F.relu(x) - F.relu(x-6)
 
         slope = (self.slope_param - self.slope_param * self.slope_lr_scale).detach() + self.slope_param * self.slope_lr_scale
+
+        # x = x_act * alpha + x * (1 - alpha) -> related to slope
         
-        if self.flag:
-            x = x_act + (x - x_act) * (0 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
-        else:
-            x = x_act + (x - x_act) * (1 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
+        # if self.flag:
+        #     x = x_act + (x - x_act) * (0 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
+        # else:
+        #     x = x_act + (x - x_act) * (1 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
+
+        x1 = x_act + (x - x_act) * (0 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
+        x2 = x_act + (x - x_act) * (1 - torch.clamp(slope, 0, 1).detach() + torch.clamp(slope, 0, 1))
+        x = self.flag * x1 + (1 - self.flag) * x2
         
 
         return x
@@ -238,7 +244,7 @@ class Learnable_Relu6_Hard_SNL(nn.Module):
         super(Learnable_Relu6_Hard_SNL, self).__init__()
 
         self.config = config
-        self.flag = torch.ones(1, 1, 1, 1).cuda()
+        self.flag = torch.ones(1, 1, 1, 1)
         self.slope_lr_scale = 1
         self.slope_param = None
         self.chl_wise = False
@@ -251,9 +257,11 @@ class Learnable_Relu6_Hard_SNL(nn.Module):
         if self.slope_param is None:
             _, C, H, W = x.shape
             if self.config.DS.CHL_WISE:
-                self.slope_param = nn.Parameter(torch.zeros((1, C, 1, 1)).cuda(), requires_grad=True)
+                self.slope_param = nn.Parameter(torch.zeros((1, C, 1,
+                    1)).to(x.device), requires_grad=True)
             elif self.config.DS.PIXEL_WISE:
-                self.slope_param = nn.Parameter(torch.zeros((1, 1, H, W)).cuda(), requires_grad=True)
+                self.slope_param = nn.Parameter(torch.zeros((1, 1, H,
+                    W)).to(x.device), requires_grad=True)
 
         x_act = F.relu(x) - F.relu(x-6)
 
@@ -266,7 +274,8 @@ class Learnable_Relu6_Hard_SNL(nn.Module):
             self.flag = self.flag.unsqueeze(0).unsqueeze(2).unsqueeze(2).to(torch.float32)
         if len(self.flag.shape) == 2:
             self.flag = self.flag.unsqueeze(0).unsqueeze(0).to(torch.float32)
-        # print(x1.shape, x2.shape, self.flag.shape)
+
+        self.flag = self.flag.to(x.device)
 
         x = self.flag * x1 + (1 - self.flag) * x2
 

@@ -24,12 +24,15 @@ AUG:
   # REPROB: 0.
 
 DS:
-  PRETRAINED: "/home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth"
+  # PRETRAINED: "/home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth"
+  # PRETRAINED: "/home/mengli/projects/wenxuanzeng/RePriv/mobilenetv2_140_ra-21a4e913.pth"
+  PRETRAINED: ""
 
-  DISTILL: True
+  DISTILL: False
   DISTILL_WEIGHT: 0.7
   DISTILL_FEATURE: False
   DISTILL_FEATURE_WEIGHT: 1e-3
+  DISTILL_CKPT: "/home/mengli/projects/wenxuanzeng/RePriv/mobilenetv2_140_ra-21a4e913.pth"
 
   ACT_FUN: 'learnable_relu6_hard_snl'
   KEEP_ALL_ACT: False
@@ -47,7 +50,7 @@ DS:
   START_SLOPE: 0
   END_SLOPE: 1
 
-  SEARCH: False
+  SEARCH: True
   L0_SPARSITY: 0.6
 
   ADD_FINAL_ACT: ''

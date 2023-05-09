@@ -213,3 +213,16 @@ def reduce_dict(input_dict, average=True):
             values /= world_size
         reduced_dict = {k: v for k, v in zip(names, values)}
     return reduced_dict
+
+
+def load_checkpoint_strict(model, checkpoint):
+    matched_params = {}
+    for name, params in model.state_dict().items():
+        if name in checkpoint:
+            assert params.shape == checkpoint[name].shape
+            matched_params[name] = checkpoint[name]
+        else:
+            print(f"{name} not shown in checkpoint")
+
+    model.load_state_dict(matched_params, strict=False)
+    return model

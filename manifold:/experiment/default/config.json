@@ -14,10 +14,10 @@ AUG:
 BASE:
 - ''
 DATA:
-  BATCH_SIZE: 128
+  BATCH_SIZE: 256
   CACHE_MODE: part
   DATASET: imagenet
-  DATA_PATH: /opt/dataset/imagenet
+  DATA_PATH: /home/mengli/Data_raid/datasets/imagenet
   IMG_SIZE: 224
   INTERPOLATION: bicubic
   NUM_WORKERS: 6
@@ -35,7 +35,8 @@ DS:
   CHL_WISE: true
   DECAY_MODE: iter
   DECAY_SLOPE: false
-  DISTILL: true
+  DISTILL: false
+  DISTILL_CKPT: /home/mengli/projects/wenxuanzeng/RePriv/mobilenetv2_140_ra-21a4e913.pth
   DISTILL_FEATURE: false
   DISTILL_FEATURE_WEIGHT: 0.001
   DISTILL_WEIGHT: 0.7
@@ -101,13 +102,13 @@ DS:
   MERGE: false
   NO_BN_STATS: false
   PIXEL_WISE: false
-  PRETRAINED: /home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth
+  PRETRAINED: ''
   PROG_REMOVE: false
   PROG_REMOVE_EPOCH: 120
   PROG_REMOVE_MODE: forward
   RANDOM_DROP: false
   REMOVE_BLOCK: false
-  SEARCH: false
+  SEARCH: true
   SEARCH_CKPT: /home/zwx/projects/DepthShrinker/manifold:/experiment/default/ckpt.pth
   START_EPOCH: 0
   START_SLOPE: 0
@@ -136,7 +137,7 @@ TRAIN:
   ACCUMULATION_STEPS: 0
   AUTO_RESUME: false
   BASE_BATCH_SIZE: 256
-  BASE_LR: 0.05
+  BASE_LR: 0.1
   CLIP_GRAD: 5.0
   EPOCHS: 180
   LR_SCHEDULER:
@@ -144,7 +145,7 @@ TRAIN:
     DECAY_RATE: 0.1
     NAME: cosine
   MAX: 192
-  MIN_LR: 2.5e-06
+  MIN_LR: 5.0e-06
   OPTIMIZER:
     BETAS:
     - 0.9
@@ -156,7 +157,7 @@ TRAIN:
   USE_CHECKPOINT: false
   USE_CONV_PROJ: true
   WARMUP_EPOCHS: 0
-  WARMUP_LR: 2.5e-07
+  WARMUP_LR: 5.0e-07
   WEIGHT_DECAY: 1.0e-05
 WORLD_SIZE: 1
 dist_url: tcp://127.0.0.1:10000

@@ -35,6 +35,7 @@ from misc.lr_scheduler import build_scheduler
 from misc.optimizer import build_optimizer
 from misc.utils import (
     load_checkpoint,
+    load_checkpoint_strict,
     save_checkpoint,
     get_grad_norm,
     auto_resume_helper,
@@ -247,6 +248,10 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
             # if isinstance(module, Changable_Act):
             #     module.set_act_fun(config.DS.ACT_FUN, out_chl)
 
+    # infer once before building optimizer
+    input_tensor = torch.rand(1, 3, 224, 224) 
+    model(input_tensor)
+
     config.defrost()
     if not config.DS.SEARCH and not config.DS.KEEP_ALL_ACT:
         assert config.DS.ACT_FROM_SEARCH or config.DS.ACT_FROM_LIST
@@ -377,9 +382,11 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
             checkpoint = checkpoint_new
 
         if 'model' in checkpoint.keys():
-            model.load_state_dict(checkpoint['model'], strict=False)
+            # model.load_state_dict(checkpoint['model'], strict=False)
+            model = load_checkpoint_strict(model, checkpoint['model'])
         else:
-            model.load_state_dict(checkpoint, strict=False)
+            # model.load_state_dict(checkpoint, strict=False)
+            model = load_checkpoint_strict(model, checkpoint)
 
         logger.info("Successfully load pretrained model: %s", checkpoint_name)
 
@@ -446,7 +453,8 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
         print('Using KD...')
         teachers = build_model(config)
 
-        checkpoint_name = config.DS.PRETRAINED 
+        # checkpoint_name = config.DS.PRETRAINED 
+        checkpoint_name = config.DS.DISTILL_CKPT
         
         with open(checkpoint_name, "rb") as fp:
             checkpoint = torch.load(fp, map_location='cpu')
@@ -478,6 +486,9 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
             teachers = torch.nn.parallel.DistributedDataParallel(teachers, device_ids=[config.LOCAL_RANK], broadcast_buffers=False)
         else:
             teachers = torch.nn.parallel.DataParallel(teachers)
+
+        acc1, acc5, loss = validate(config, data_loader_val, teachers, dp=dp)
+        logger.info(f"Accuracy of the teacher network on the {len(dataset_val)} test images: {acc1:.1f}%")
 
         logger.info("Successfully build teacher model")
 
@@ -653,7 +664,8 @@ def main_worker(gpu, ngpus_per_node, config, dp=False, args=None):
                             flag_list[id_list] = 1
                             # print(module.slope_param.shape, flag_list)
                             # module.slope_param.data[0, :, 0, 0] = torch.tensor(flag_list).cuda()
-                            module.set_flag(torch.tensor(flag_list).cuda())
+                            # module.set_flag(torch.tensor(flag_list).cuda())
+                            module.set_flag(torch.tensor(flag_list))
                 
                 if config.DS.PIXEL_WISE:
                     for module in model.modules():
@@ -759,6 +771,7 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                         slope_param.append(param.data.item())
                     # slope_param.append(param.data.cpu().numpy())  # zwx
             # print('slope_param len:', len(slope_param))
+            # print(slope_param)
 
             if config.DS.ACT_FUN == 'learnable_relu_hard' or config.DS.ACT_FUN == 'learnable_relu6_hard' or config.DS.ACT_FUN == 'learnable_gelu_hard' or config.DS.ACT_FUN == 'learnable_relu6_hard_snl':
                 if config.DS.GS_SAMPLE.ENABLE and epoch_id < config.DS.GS_SAMPLE.EPOCH:
@@ -790,9 +803,10 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                                 id_list = np.argsort(p).squeeze()[:int(config.DS.L0_SPARSITY * module.slope_param.data.shape[1])]
                                 flag_list = np.zeros(module.slope_param.data.shape[1])
                                 flag_list[id_list] = 1
+                                # flag_list[: int(config.DS.L0_SPARSITY * module.slope_param.data.shape[1])] = 1
                                 # print(flag_list)
                                 # print(module.slope_param.shape, flag_list)
-                                module.set_flag(torch.tensor(flag_list).cuda())
+                                module.set_flag(torch.tensor(flag_list))
                     
                     if config.DS.PIXEL_WISE:
                         for module in model.modules():
@@ -804,7 +818,7 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                                 flag_list[id_list.cpu().numpy()] = 1
                                 flag_list = flag_list.reshape(p.shape[0], p.shape[1])
                                 # print(flag_list)
-                                module.set_flag(torch.tensor(flag_list).cuda())
+                                module.set_flag(torch.tensor(flag_list))
 
             else:
                 logger.info('Not implemented activation fuction:%s' % config.DS.ACT_FUN)
@@ -822,6 +836,7 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                 # soft_logits1 = teacher[1](samples)
                 soft_logits = teacher(samples)
 
+        model.cuda()
         outputs = model(samples)
 
         # for name, param in model.named_parameters():
@@ -859,11 +874,12 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                     model.module.clear_feature_list()
                     teacher.module.clear_feature_list()
 
+
             if 'SNL' not in args.cfg:  # zwx
                 lat_cost = 0
                 for k in range(len(slope_param_list)):
                     lat_cost = lat_cost + (config.DS.LAT_BEFORE[k] - config.DS.LAT_AFTER[k]) * slope_param_list[k]
-                loss = loss + lat_cost * config.DS.LAT_COST_WEIGHT
+                loss = loss - lat_cost * config.DS.LAT_COST_WEIGHT
 
             loss = loss / config.TRAIN.ACCUMULATION_STEPS
             if config.AMP_OPT_LEVEL != "O0":
@@ -926,8 +942,17 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                 lat_cost = 0
                 # print('slope_param list len:', len(slope_param_list))
                 for k in range(len(slope_param_list)):
-                    lat_cost = lat_cost + (config.DS.LAT_BEFORE[k] - config.DS.LAT_AFTER[k]) * slope_param_list[k]
-                loss = loss + lat_cost * config.DS.LAT_COST_WEIGHT
+                    lat_cost = lat_cost + (config.DS.LAT_BEFORE[k] - config.DS.LAT_AFTER[k]) * max(slope_param_list[k], 0)
+                loss = loss - lat_cost * config.DS.LAT_COST_WEIGHT
+            else:
+                lat_cost = 0
+                # print('slope_param list len:', len(slope_param_list))
+                for k in range(len(slope_param_list)):
+                    slope_param_clamp = torch.clamp(slope_param_list[k], min=0)
+                    layer_cost = torch.sum(slope_param_clamp)
+                    layer_cost_grad = torch.sum(slope_param_list[k])
+                    lat_cost = lat_cost + (layer_cost - layer_cost_grad).detach() + layer_cost_grad
+                loss = loss - lat_cost * config.DS.LAT_COST_WEIGHT
 
             if not math.isfinite(loss.item()):
                 continue
@@ -946,6 +971,10 @@ def train_one_epoch(config, args, model, criterion, data_loader, optimizer, epoc
                     grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), config.TRAIN.CLIP_GRAD)
                 else:
                     grad_norm = get_grad_norm(model.parameters())
+
+            # print(slope_param_list)
+            # print("total loss", loss, "regularization loss", lat_cost * config.DS.LAT_COST_WEIGHT)
+
             optimizer.step()
             lr_scheduler.step_update(epoch * num_steps + idx)
 
@@ -1076,6 +1105,7 @@ if __name__ == '__main__':
     ngpus_per_node = torch.cuda.device_count()
 
     if not args.dp:
+    # if False:
         # Use torch.multiprocessing.spawn to launch distributed processes: the
         mp.spawn(
             main_worker, nprocs=ngpus_per_node, args=(ngpus_per_node, config, False, args)
@@ -1083,6 +1113,7 @@ if __name__ == '__main__':
 
     else:
         config.defrost()
-        config.PRINT_FREQ = 1
+        config.PRINT_FREQ = 50
+        config.DS.L0_SPARSITY = 0.8
         config.freeze()
         main_worker(gpu=None, ngpus_per_node=ngpus_per_node, config=config, dp=True, args=args)
