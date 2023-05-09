@@ -1,0 +1,69 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
+MODEL:
+  TYPE: mobilenetv2_140_block_ds
+  NAME: mobilenetv2_140_block_ds
+
+  # DROP_RATE: 0.2
+  # DROP_PATH_RATE: 0.2
+
+  LABEL_SMOOTHING: 0.1
+
+EVAL_MODE: False
+
+TRAIN:
+  EPOCHS: 1
+  WEIGHT_DECAY: 1e-5
+  BASE_LR: 0.1
+  LR_SCHEDULER:
+    NAME: 'cosine'
+
+AUG:
+  AUTO_AUGMENT: 'rand-m5-mstd0.5-inc1'
+  MIXUP: 0. # 0.8
+  # REPROB: 0.
+
+DS:
+  # PRETRAINED: "/home/zwx/projects/DepthShrinker/mobilenetv2_140_ra-21a4e913.pth"
+  # PRETRAINED: "/home/mengli/projects/wenxuanzeng/RePriv/mobilenetv2_140_ra-21a4e913.pth"
+  PRETRAINED: ""
+
+  DISTILL: False
+  DISTILL_WEIGHT: 0.7
+  DISTILL_FEATURE: False
+  DISTILL_FEATURE_WEIGHT: 1e-3
+  DISTILL_CKPT: "/home/mengli/projects/wenxuanzeng/RePriv/mobilenetv2_140_ra-21a4e913.pth"
+
+  ACT_FUN: 'learnable_relu6_hard_snl'
+  KEEP_ALL_ACT: False
+  ACT_FROM_LIST: False
+  ACT_LIST: []
+
+  ACT_FROM_SEARCH: True
+  SEARCH_CKPT: "/home/zwx/projects/DepthShrinker/manifold:/experiment/default/ckpt.pth"
+
+  DECAY_SLOPE: False
+  DECAY_MODE: 'iter'
+  START_EPOCH: 0
+  END_EPOCH: 0
+
+  START_SLOPE: 0
+  END_SLOPE: 1
+
+  SEARCH: True
+  L0_SPARSITY: 0.6
+
+  ADD_FINAL_ACT: ''
+
+  MERGE: False
+
+  # LAT_BEFORE: [0,56.97,138.79,82.45,47.03,34.51,34.51,21.19,17.91,17.91,17.91,20.75,31.27,31.27,16.67,14.21,14.21,18.77,0]
+  # LAT_AFTER: [0,41.78,5.45,6.68,3.23,4.12,4.12,2.38,2.72,2.72,2.72,3.75,5.04,5.04,3.44,2.8,2.8,4.38,0]
+
+  # zwx: MPC-aware search (Comm. / 100)
+  LAT_BEFORE: [18.5039, 59.0279, 67.7049, 61.0657, 30.3438, 23.3904, 23.3904, 13.6589, 18.5797, 18.5797, 18.5797, 21.1564, 35.2120, 35.2120, 23.3629, 25.9780, 25.9780, 34.2610, 23.0013] 
+  LAT_AFTER: [11.38781, 17.8929, 8.85087, 4.89339, 4.36431, 2.21807, 2.21807, 2.95533, 3.1424, 3.1424, 3.1424, 4.53318, 6.70935, 6.70935, 7.68199, 7.07067, 7.07067, 13.7805, 23.0013] 
+
+  # zwx: modify SNL's granularity
+  CHL_WISE: True
+  PIXEL_WISE: False
